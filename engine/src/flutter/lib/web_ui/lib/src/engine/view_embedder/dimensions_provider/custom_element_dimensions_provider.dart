@@ -84,10 +84,16 @@ class CustomElementDimensionsProvider extends DimensionsProvider {
   @override
   ui.Size computePhysicalSize() {
     final double devicePixelRatio = EngineFlutterDisplay.instance.devicePixelRatio;
-    return ui.Size(
-      _hostElement.clientWidth * devicePixelRatio,
-      _hostElement.clientHeight * devicePixelRatio,
-    );
+    double width = _hostElement.clientWidth * devicePixelRatio;
+    double height = _hostElement.clientHeight * devicePixelRatio;
+    final double limit = 16384;
+    if (width > limit) {
+      width = limit;
+    }
+    if (height > limit) {
+      height = limit;
+    }
+    return ui.Size(width, height);
   }
 
   @override
