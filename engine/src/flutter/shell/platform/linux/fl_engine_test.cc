@@ -340,7 +340,7 @@ TEST_F(FlEngineTest, OnPreEngineRestart) {
       Initialize, ([&callback, &callback_user_data, &called](
                        size_t version, const FlutterRendererConfig* config,
                        const FlutterProjectArgs* args, void* user_data,
-                       FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                       FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         callback = args->on_pre_engine_restart_callback;
         callback_user_data = user_data;
@@ -386,7 +386,7 @@ TEST_F(FlEngineTest, DartEntrypointArgs) {
       Initialize, ([&called, &set_args = args](
                        size_t version, const FlutterRendererConfig* config,
                        const FlutterProjectArgs* args, void* user_data,
-                       FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                       FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         EXPECT_NE(set_args, args->dart_entrypoint_argv);
         EXPECT_EQ(args->dart_entrypoint_argc, 3);
@@ -407,7 +407,7 @@ TEST_F(FlEngineTest, EngineId) {
       Initialize,
       ([&engine_id](size_t version, const FlutterRendererConfig* config,
                     const FlutterProjectArgs* args, void* user_data,
-                    FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                    FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         engine_id = args->engine_id;
         return kSuccess;
       }));
@@ -429,7 +429,7 @@ TEST_F(FlEngineTest, UIIsolateDefaultThreadPolicy) {
       Initialize,
       ([&same_task_runner](size_t version, const FlutterRendererConfig* config,
                            const FlutterProjectArgs* args, void* user_data,
-                           FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                           FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         same_task_runner = args->custom_task_runners->platform_task_runner ==
                            args->custom_task_runners->ui_task_runner;
         return kSuccess;
@@ -451,7 +451,7 @@ TEST_F(FlEngineTest, UIIsolateOnPlatformTaskRunner) {
       Initialize,
       ([&same_task_runner](size_t version, const FlutterRendererConfig* config,
                            const FlutterProjectArgs* args, void* user_data,
-                           FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                           FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         same_task_runner = args->custom_task_runners->platform_task_runner ==
                            args->custom_task_runners->ui_task_runner;
         return kSuccess;
@@ -473,7 +473,7 @@ TEST_F(FlEngineTest, UIIsolateOnSeparateThread) {
       Initialize,
       ([&separate_thread](size_t version, const FlutterRendererConfig* config,
                           const FlutterProjectArgs* args, void* user_data,
-                          FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                          FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         separate_thread = args->custom_task_runners->ui_task_runner == nullptr;
         return kSuccess;
       }));
@@ -962,7 +962,7 @@ TEST_F(FlEngineTest, EnableImpellerDefault) {
       Initialize,
       ([&called](size_t version, const FlutterRendererConfig* config,
                  const FlutterProjectArgs* args, void* user_data,
-                 FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                 FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         bool has_impeller_switch = false;
         for (int i = 0; i < args->command_line_argc; i++) {
@@ -988,7 +988,7 @@ TEST_F(FlEngineTest, DisableImpeller) {
       Initialize,
       ([&called](size_t version, const FlutterRendererConfig* config,
                  const FlutterProjectArgs* args, void* user_data,
-                 FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                 FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         bool has_impeller_switch = false;
         for (int i = 0; i < args->command_line_argc; i++) {
@@ -1014,7 +1014,7 @@ TEST_F(FlEngineTest, EnableFlutterGpuDefault) {
       Initialize,
       ([&called](size_t version, const FlutterRendererConfig* config,
                  const FlutterProjectArgs* args, void* user_data,
-                 FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                 FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         bool has_flutter_gpu_switch = false;
         for (int i = 0; i < args->command_line_argc; i++) {
@@ -1040,7 +1040,7 @@ TEST_F(FlEngineTest, EnableFlutterGpu) {
       Initialize,
       ([&called](size_t version, const FlutterRendererConfig* config,
                  const FlutterProjectArgs* args, void* user_data,
-                 FLUTTER_API_SYMBOL(FlutterEngine) * engine_out) {
+                 FLUTTER_API_SYMBOL(FlutterEngine)* engine_out) {
         called = true;
         bool has_flutter_gpu_switch = false;
         for (int i = 0; i < args->command_line_argc; i++) {
