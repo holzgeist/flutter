@@ -296,6 +296,7 @@ extension type DomNavigator._(JSObject _) implements JSObject {
 @JS('Document')
 extension type DomDocument._(JSObject _) implements DomNode {
   external DomElement? get documentElement;
+  external DomWindow? get defaultView;
   external DomElement? querySelector(String selectors);
 
   @JS('querySelectorAll')
@@ -316,6 +317,14 @@ extension type DomDocument._(JSObject _) implements DomNode {
   external DomHTMLScriptElement? get currentScript;
   external DomElement createElementNS(String namespaceURI, String qualifiedName);
   external DomText createTextNode(String data);
+
+  /// Moves [node] (and its subtree) from whichever document currently owns it
+  /// into this document, updating `ownerDocument` for the whole subtree.
+  ///
+  /// This must be called before appending a node into an element that belongs
+  /// to a different document/window (e.g. a Document Picture-in-Picture
+  /// window), otherwise some browsers silently fail to actually move the node.
+  external DomNode adoptNode(DomNode node);
   external DomEvent createEvent(String eventType);
   external DomElement? get activeElement;
   external DomElement? elementFromPoint(int x, int y);

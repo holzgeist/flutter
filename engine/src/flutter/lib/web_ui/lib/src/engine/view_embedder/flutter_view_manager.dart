@@ -26,11 +26,20 @@ class FlutterViewManager {
     sync: true,
   );
 
+  // The controller of the [onViewAdopted] stream.
+  final StreamController<int> _onViewAdoptedController = StreamController<int>.broadcast(
+    sync: true,
+  );
+
   /// A stream of viewIds that will fire when a view is created.
   Stream<int> get onViewCreated => _onViewCreatedController.stream;
 
   /// A stream of viewIds that will fire when a view is disposed.
   Stream<int> get onViewDisposed => _onViewDisposedController.stream;
+
+  /// A stream of viewIds that will fire when a view is adopted by a new host
+  /// element (e.g. when entering Document Picture-in-Picture).
+  Stream<int> get onViewAdopted => _onViewAdoptedController.stream;
 
   /// Exposes all the [EngineFlutterView]s registered so far.
   Iterable<EngineFlutterView> get views => _viewData.values;
@@ -48,6 +57,25 @@ class FlutterViewManager {
     );
     registerView(view, jsViewOptions: jsViewOptions);
     return view;
+  }
+
+  /// Notifies the engine that the view identified by [viewId] has been moved
+  /// to the host element described by [jsViewOptions].
+  ///
+  /// The view's [viewId], DOM tree, and framework state are preserved. This is
+  /// used by Document Picture-in-Picture support, where a view's host element
+  /// is moved to a newly opened PiP window.
+  ///
+  /// Returns [jsViewOptions], or `null` if no view with [viewId] exists.
+  JsFlutterViewOptions? moveView(int viewId, JsFlutterViewOptions jsViewOptions) {
+    final EngineFlutterView? view = _viewData[viewId];
+    if (view == null) {
+      return null;
+    }
+    view.moveTo(jsViewOptions.hostElement);
+    _jsViewOptions[viewId] = jsViewOptions;
+    _onViewAdoptedController.add(viewId);
+    return jsViewOptions;
   }
 
   /// Stores a [view] and its (optional) [jsViewOptions], indexed by `viewId`.

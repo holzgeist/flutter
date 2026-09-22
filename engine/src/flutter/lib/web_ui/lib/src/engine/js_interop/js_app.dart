@@ -54,12 +54,24 @@ extension type JsViewConstraints._(JSObject _) implements JSObject {
 extension type FlutterApp._primary(JSObject _) implements JSObject {
   factory FlutterApp({
     required AddFlutterViewFn addView,
+    required MoveFlutterViewFn moveView,
     required RemoveFlutterViewFn removeView,
-  }) => FlutterApp._(addView: addView.toJS, removeView: ((int id) => removeView(id)).toJS);
-  external factory FlutterApp._({required JSFunction addView, required JSFunction removeView});
+  }) => FlutterApp._(
+    addView: addView.toJS,
+    moveView: ((int id, JsFlutterViewOptions options) => moveView(id, options)).toJS,
+    removeView: ((int id) => removeView(id)).toJS,
+  );
+  external factory FlutterApp._({
+    required JSFunction addView,
+    required JSFunction moveView,
+    required JSFunction removeView,
+  });
 
   @JS('addView')
   external int addView(JsFlutterViewOptions options);
+
+  @JS('moveView')
+  external JsFlutterViewOptions? moveView(int id, JsFlutterViewOptions options);
 
   @JS('removeView')
   external JsFlutterViewOptions? removeView(int id);
@@ -69,6 +81,13 @@ extension type FlutterApp._primary(JSObject _) implements JSObject {
 ///
 /// Returns the ID of the newly created view.
 typedef AddFlutterViewFn = int Function(JsFlutterViewOptions);
+
+/// Typedef for the function that tells the engine a view has been moved to a
+/// new host element (and possibly a new window/document).
+///
+/// Returns the configuration used to create the view, or `null` if no view with
+/// the given ID exists.
+typedef MoveFlutterViewFn = JsFlutterViewOptions? Function(int, JsFlutterViewOptions);
 
 /// Typedef for the function that removes a view from the app.
 ///

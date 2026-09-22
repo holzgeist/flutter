@@ -14,7 +14,16 @@ import 'embedding_strategy.dart';
 /// element, so it plays "nice" with other web frameworks.
 class CustomElementEmbeddingStrategy implements EmbeddingStrategy {
   /// Creates a [CustomElementEmbeddingStrategy] to embed a Flutter view into [_hostElement].
-  CustomElementEmbeddingStrategy(this.hostElement) {
+  CustomElementEmbeddingStrategy(
+    this.hostElement, {
+    // These parameters are accepted for API symmetry with
+    // [FullPageEmbeddingStrategy] and may be used in the future for
+    // per-window event targets.
+    // ignore: avoid_unused_constructor_parameters
+    this.viewDomWindow,
+    // ignore: avoid_unused_constructor_parameters
+    DomDocument? viewDomDocument,
+  }) {
     hostElement.clearChildren();
     hostElement.setAttribute('flt-embedding', 'custom-element');
   }
@@ -23,10 +32,12 @@ class CustomElementEmbeddingStrategy implements EmbeddingStrategy {
   DomEventTarget get globalEventTarget => _rootElement;
 
   @override
-  final DomElement hostElement;
+  DomElement hostElement;
+
+  DomWindow? viewDomWindow;
 
   /// The root element of the Flutter view.
-  late final DomElement _rootElement;
+  late DomElement _rootElement;
 
   @override
   void setLocale(ui.Locale locale) {
@@ -35,6 +46,26 @@ class CustomElementEmbeddingStrategy implements EmbeddingStrategy {
 
   @override
   void attachViewRoot(DomElement rootElement) {
+    _applyRootElementStyles(rootElement);
+
+    if (!hostElement.contains(rootElement)) {
+      hostElement.appendChild(rootElement);
+    }
+
+    registerElementForCleanup(rootElement);
+    _rootElement = rootElement;
+  }
+
+  @override
+  void updateHostElement(DomElement newHostElement, DomElement newRootElement) {
+    hostElement.setAttribute('flt-embedding', '');
+    newHostElement.setAttribute('flt-embedding', 'custom-element');
+    print('TOBOL update host element');
+    hostElement = newHostElement;
+    attachViewRoot(newRootElement);
+  }
+
+  void _applyRootElementStyles(DomElement rootElement) {
     rootElement
       ..style.width = '100%'
       ..style.height = '100%'
@@ -44,10 +75,5 @@ class CustomElementEmbeddingStrategy implements EmbeddingStrategy {
       // This is needed so the browser lets flutter handle all pointer events
       // it receives, without canceling them.
       ..style.touchAction = 'none';
-
-    hostElement.appendChild(rootElement);
-
-    registerElementForCleanup(rootElement);
-    _rootElement = rootElement;
   }
 }
