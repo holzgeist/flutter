@@ -38,12 +38,12 @@ fml::AutoResetWaitableEvent message_latch;
 class MockSyncSwitch {
  public:
   struct Handlers {
-    Handlers& SetIfTrue(std::function<void()> handler) {
-      true_handler = std::move(handler);
+    Handlers& SetIfTrue(const std::function<void()>& handler) {
+      true_handler = handler;
       return *this;
     }
-    Handlers& SetIfFalse(std::function<void()> handler) {
-      false_handler = std::move(handler);
+    Handlers& SetIfFalse(const std::function<void()>& handler) {
+      false_handler = handler;
       return *this;
     }
     std::function<void()> true_handler = [] {};

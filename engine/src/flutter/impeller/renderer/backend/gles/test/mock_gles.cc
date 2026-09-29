@@ -6,7 +6,6 @@
 
 #include "GLES3/gl3.h"
 #include "fml/logging.h"
-#include "impeller/base/thread_safety.h"
 #include "impeller/renderer/backend/gles/proc_table_gles.h"
 #include "impeller/renderer/backend/gles/test/mock_gles.h"
 
@@ -415,7 +414,7 @@ static_assert(CheckSameSignature<decltype(mockVertexAttribDivisor),  //
                                  decltype(glVertexAttribDivisor)>::value);
 
 // static
-IPLR_NO_THREAD_SAFETY_ANALYSIS std::shared_ptr<MockGLES> MockGLES::Init(
+std::shared_ptr<MockGLES> MockGLES::Init(
     std::unique_ptr<MockGLESImpl> impl,
     const std::optional<std::vector<const char*>>& extensions,
     const char* version_string) {
@@ -436,7 +435,7 @@ IPLR_NO_THREAD_SAFETY_ANALYSIS std::shared_ptr<MockGLES> MockGLES::Init(
   return mock_gles;
 }
 
-IPLR_NO_THREAD_SAFETY_ANALYSIS std::shared_ptr<MockGLES> MockGLES::Init(
+std::shared_ptr<MockGLES> MockGLES::Init(
     const std::optional<std::vector<const char*>>& extensions,
     const char* version_string,
     ProcTableGLES::Resolver resolver) {

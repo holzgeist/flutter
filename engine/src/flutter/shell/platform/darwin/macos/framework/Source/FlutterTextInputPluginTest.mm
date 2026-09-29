@@ -52,18 +52,6 @@
 }
 @end
 
-// Matches an encoded JSON message whose content equals that of |expected|.
-//
-// The encoded bytes are not comparable directly: clang emits constant
-// dictionaries for literals, which order their keys differently to the
-// dictionaries the plugins build at runtime.
-static id JSONMessageWithContentOf(NSData* expected) {
-  id expectedContent = [[FlutterJSONMessageCodec sharedInstance] decode:expected];
-  return [OCMArg checkWithBlock:^BOOL(NSData* message) {
-    return [[[FlutterJSONMessageCodec sharedInstance] decode:message] isEqual:expectedContent];
-  }];
-}
-
 @interface FlutterInputPluginTestObjc : NSObject
 - (bool)testEmptyCompositionRange;
 - (bool)testClearClientDuringComposing;
@@ -229,13 +217,11 @@ static const FlutterViewIdentifier kViewId = 1;
                                           arguments:@[ @(1), expectedState ]]];
 
   OCMExpect(  // NOLINT(google-objc-avoid-throwing-exception)
-      [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                 message:JSONMessageWithContentOf(updateCall)]);
+      [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -301,13 +287,11 @@ static const FlutterViewIdentifier kViewId = 1;
                                           arguments:@[ @(1), expectedState ]]];
 
   OCMExpect(  // NOLINT(google-objc-avoid-throwing-exception)
-      [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                 message:JSONMessageWithContentOf(updateCall)]);
+      [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1092,8 +1076,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1123,8 +1106,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1154,8 +1136,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1214,8 +1195,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1245,8 +1225,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1276,8 +1255,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1307,8 +1285,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1338,8 +1315,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1369,8 +1345,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1400,8 +1375,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1475,8 +1449,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -1840,8 +1813,7 @@ static const FlutterViewIdentifier kViewId = 1;
                                           arguments:@[ @(1), expectedState ]]];
 
   OCMExpect(  // NOLINT(google-objc-avoid-throwing-exception)
-      [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                 message:JSONMessageWithContentOf(updateCall)]);
+      [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
 
   [plugin handleMethodCall:call
                     result:^(id){
@@ -1857,8 +1829,7 @@ static const FlutterViewIdentifier kViewId = 1;
   // Input action should be notified.
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(performActionCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:performActionCall]);
   } @catch (...) {
     return false;
   }
@@ -1881,8 +1852,7 @@ static const FlutterViewIdentifier kViewId = 1;
   // Verify that editing state was not be updated.
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
     return false;
   } @catch (...) {
     // Expected.
@@ -1943,8 +1913,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(updateCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:updateCall]);
   } @catch (...) {
     return false;
   }
@@ -2011,8 +1980,7 @@ static const FlutterViewIdentifier kViewId = 1;
 
   @try {
     OCMVerify(  // NOLINT(google-objc-avoid-throwing-exception)
-        [binaryMessengerMock sendOnChannel:@"flutter/textinput"
-                                   message:JSONMessageWithContentOf(performSelectorCall)]);
+        [binaryMessengerMock sendOnChannel:@"flutter/textinput" message:performSelectorCall]);
   } @catch (...) {
     return false;
   }

@@ -342,12 +342,11 @@ TEST(DisplayListSkConversions, MatrixColorFilterModifiesTransparency) {
     auto dl_filter = DlColorFilter::MakeMatrix(matrix);
     auto sk_filter = ToSk(filter);
     auto srgb = SkColorSpace::MakeSRGB();
-    EXPECT_EQ(dl_filter == nullptr, sk_filter == nullptr) << desc;
+    EXPECT_EQ(dl_filter == nullptr, sk_filter == nullptr);
     EXPECT_EQ(filter.modifies_transparent_black(),
               sk_filter && sk_filter->filterColor4f(SkColors::kTransparent,
                                                     srgb.get(), srgb.get()) !=
-                               SkColors::kTransparent)
-        << desc;
+                               SkColors::kTransparent);
   };
 
   // Tests identity (matrix[0] already == 1 in an identity filter)

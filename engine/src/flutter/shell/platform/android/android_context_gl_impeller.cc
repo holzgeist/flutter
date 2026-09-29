@@ -188,7 +188,8 @@ AndroidContextGLImpeller::AndroidContextGLImpeller(
   }
   // Setup context listeners.
   impeller::egl::Context::LifecycleListener listener =
-      [worker = reactor_worker_](impeller::egl::Context::LifecycleEvent event) {
+      [worker =
+           reactor_worker_](impeller::egl ::Context::LifecycleEvent event) {
         switch (event) {
           case impeller::egl::Context::LifecycleEvent::kDidMakeCurrent:
             worker->SetReactionsAllowedOnCurrentThread(true);
